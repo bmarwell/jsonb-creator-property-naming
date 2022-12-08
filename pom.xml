@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>jsonb-creator-naming-test</artifactId>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerArguments>
+            <Xlint/>
+          </compilerArguments>
+          <showWarnings>true</showWarnings>
+        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.10.1</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.0.0-M7</version>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <artifactId>jakarta.json-api</artifactId>
+      <groupId>jakarta.json</groupId>
+      <scope>compile</scope>
+      <version>2.1.1</version>
+    </dependency>
+    <dependency>
+      <artifactId>jakarta.json.bind-api</artifactId>
+      <groupId>jakarta.json.bind</groupId>
+      <scope>compile</scope>
+      <version>3.0.0</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>junit-jupiter-api</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>${junit.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>${junit.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>assertj-core</artifactId>
+      <groupId>org.assertj</groupId>
+      <scope>test</scope>
+      <version>${dependency.assertj.version}</version>
+    </dependency>
+
+  </dependencies>
+  <groupId>org.example</groupId>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <profiles>
+    <profile>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <!-- johnzon or yasson will both work -->
+        <dependency>
+          <artifactId>johnzon-core</artifactId>
+          <classifier>jakarta</classifier>
+          <exclusions>
+            <exclusion>
+              <artifactId>*</artifactId>
+              <groupId>*</groupId>
+            </exclusion>
+          </exclusions>
+          <groupId>org.apache.johnzon</groupId>
+          <scope>test</scope>
+          <version>${dependency.johnzon.version}</version>
+        </dependency>
+        <dependency>
+          <artifactId>johnzon-jsonb</artifactId>
+          <classifier>jakarta</classifier>
+          <exclusions>
+            <exclusion>
+              <artifactId>*</artifactId>
+              <groupId>*</groupId>
+            </exclusion>
+          </exclusions>
+          <groupId>org.apache.johnzon</groupId>
+          <scope>test</scope>
+          <version>${dependency.johnzon.version}</version>
+        </dependency>
+        <dependency>
+          <artifactId>johnzon-mapper</artifactId>
+          <classifier>jakarta</classifier>
+          <exclusions>
+            <exclusion>
+              <artifactId>*</artifactId>
+              <groupId>*</groupId>
+            </exclusion>
+          </exclusions>
+          <groupId>org.apache.johnzon</groupId>
+          <scope>test</scope>
+          <version>${dependency.johnzon.version}</version>
+        </dependency>
+      </dependencies>
+      <id>johnzon</id>
+    </profile>
+  </profiles>
+
+  <properties>
+    <dependency.assertj.version>3.23.1</dependency.assertj.version>
+    <dependency.johnzon.version>1.2.19</dependency.johnzon.version>
+    <junit.version>5.9.1</junit.version>
+
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <version>1.0-SNAPSHOT</version>
+
+</project>
