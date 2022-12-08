@@ -1,0 +1,82 @@
+name: Maven CI
+
+on:
+  workflow_dispatch: { }
+  push: { }
+  pull_request: { }
+
+jobs:
+  build-with-johnzon:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Build application with Maven
+        shell: bash
+        run: |
+          ./mvnw \
+            --show-version \
+            --errors \
+            --batch-mode \
+            --no-transfer-progress \
+            verify \
+            -Pjohnzon \
+            -DtrimStackTrace=false
+
+  build-with-johnzon-snapshot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Build application with Maven
+        shell: bash
+        run: |
+          ./mvnw \
+            --show-version \
+            --errors \
+            --batch-mode \
+            --no-transfer-progress \
+            verify \
+            -Pjohnzon-snapshot \
+            -DtrimStackTrace=false
+
+  build-with-yasson:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Build application with Maven
+        shell: bash
+        run: |
+          ./mvnw \
+            --show-version \
+            --errors \
+            --batch-mode \
+            --no-transfer-progress \
+            verify \
+            -Pyasson \
+            -DtrimStackTrace=false

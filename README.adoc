@@ -1,0 +1,7 @@
+= `@JsonbCreator` property naming test
+
+On Java records, you can define an empty public constructor which can be used for
+both annotations and validation (but not for logic).
+While Jsonb-implementations will pick up the `@JsonbConstructor` annotation,
+they will fail to apply the default naming strategy.
+You MUST sync with your naming strategy, which is repeating yourself and error-prone.

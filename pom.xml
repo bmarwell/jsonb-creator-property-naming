@@ -2,29 +2,31 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.github.bmarwell.jsonb.creator</groupId>
   <artifactId>jsonb-creator-naming-test</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
 
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <compilerArguments>
-            <Xlint/>
-          </compilerArguments>
-          <showWarnings>true</showWarnings>
-        </configuration>
-        <groupId>org.apache.maven.plugins</groupId>
-        <version>3.10.1</version>
-      </plugin>
+  <name>JSON-B creator property naming test</name>
+  <description>
+    On Java records, you can define an empty public constructor which can be used for
+    both annotations and validation (but not for logic).
+    While Jsonb-implementations will pick up the `@JsonbConstructor` annotation,
+    they will fail to apply the default naming strategy.
+    You MUST sync with your naming strategy, which is repeating yourself and error-prone.
+  </description>
 
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <groupId>org.apache.maven.plugins</groupId>
-        <version>3.0.0-M7</version>
-      </plugin>
-    </plugins>
-  </build>
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <dependency.assertj.version>3.23.1</dependency.assertj.version>
+    <dependency.johnzon.version>1.2.19</dependency.johnzon.version>
+    <junit.version>5.9.1</junit.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <artifactId>jakarta.json-api</artifactId>
@@ -59,12 +61,32 @@
     </dependency>
 
   </dependencies>
-  <groupId>org.example</groupId>
 
-  <modelVersion>4.0.0</modelVersion>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerArguments>
+            <Xlint/>
+          </compilerArguments>
+          <showWarnings>true</showWarnings>
+        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.10.1</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.0.0-M7</version>
+      </plugin>
+    </plugins>
+  </build>
 
   <profiles>
     <profile>
+      <id>johnzon</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -110,21 +132,82 @@
           <version>${dependency.johnzon.version}</version>
         </dependency>
       </dependencies>
-      <id>johnzon</id>
+    </profile>
+
+    <profile>
+      <id>johnzon-snapshot</id>
+      <properties>
+        <dependency.johnzon.version>1.2.20-SNAPSHOT</dependency.johnzon.version>
+      </properties>
+      <dependencies>
+        <!-- johnzon or yasson will both work -->
+        <dependency>
+          <artifactId>johnzon-core</artifactId>
+          <classifier>jakarta</classifier>
+          <exclusions>
+            <exclusion>
+              <artifactId>*</artifactId>
+              <groupId>*</groupId>
+            </exclusion>
+          </exclusions>
+          <groupId>org.apache.johnzon</groupId>
+          <scope>test</scope>
+          <version>${dependency.johnzon.version}</version>
+        </dependency>
+        <dependency>
+          <artifactId>johnzon-jsonb</artifactId>
+          <classifier>jakarta</classifier>
+          <exclusions>
+            <exclusion>
+              <artifactId>*</artifactId>
+              <groupId>*</groupId>
+            </exclusion>
+          </exclusions>
+          <groupId>org.apache.johnzon</groupId>
+          <scope>test</scope>
+          <version>${dependency.johnzon.version}</version>
+        </dependency>
+        <dependency>
+          <artifactId>johnzon-mapper</artifactId>
+          <classifier>jakarta</classifier>
+          <exclusions>
+            <exclusion>
+              <artifactId>*</artifactId>
+              <groupId>*</groupId>
+            </exclusion>
+          </exclusions>
+          <groupId>org.apache.johnzon</groupId>
+          <scope>test</scope>
+          <version>${dependency.johnzon.version}</version>
+        </dependency>
+      </dependencies>
+      <repositories>
+        <repository>
+          <id>repository.apache.org</id>
+          <name>apache-snapshots</name>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <checksumPolicy>fail</checksumPolicy>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+          <url>https://repository.apache.org/content/groups/snapshots/</url>
+        </repository>
+      </repositories>
+    </profile>
+
+    <profile>
+      <id>yasson</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse</groupId>
+          <artifactId>yasson</artifactId>
+          <version>2.0.4</version>
+        </dependency>
+      </dependencies>
     </profile>
   </profiles>
 
-  <properties>
-    <dependency.assertj.version>3.23.1</dependency.assertj.version>
-    <dependency.johnzon.version>1.2.19</dependency.johnzon.version>
-    <junit.version>5.9.1</junit.version>
-
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-  <version>1.0-SNAPSHOT</version>
 
 </project>
