@@ -207,6 +207,17 @@
         </dependency>
       </dependencies>
     </profile>
+
+    <profile>
+      <id>yasson3</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse</groupId>
+          <artifactId>yasson</artifactId>
+          <version>3.0.2</version>
+        </dependency>
+      </dependencies>
+    </profile>
   </profiles>
 
 
